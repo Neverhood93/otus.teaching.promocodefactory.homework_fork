@@ -9,7 +9,7 @@ on:
       - main
 
 env:
-  TEST_PROJ: 'Otus.Teaching.PromoCodeFactory.UnitTests'
+  TEST_PROJ: 'src/Otus.Teaching.PromoCodeFactory.UnitTests'
 
 jobs:
   build:
@@ -25,18 +25,10 @@ jobs:
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: ${{ matrix.dotnet-version }}
-
-    - name: Go to src
-      run: cd src
-
-    - name: Install dependencies
-      run: dotnet restore
       
-    - name: Build
-      run: dotnet build
-      
-    - name: Go to test project
-      run: cd ${{ env.TEST_PROJ }}
-    
-    - name: Test
-      run: dotnet test
+    - name: Install dependencies, build and test
+      working-directory: ${{ env.TEST_PROJ }}
+      run: |
+        dotnet restore
+        dotnet build
+        dotnet test
