@@ -9,20 +9,22 @@ on:
       - main
 
 env:
-  DOTNET_VERSION: '8.0.200'
   TEST_PROJ: 'Otus.Teaching.PromoCodeFactory.UnitTests'
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        dotnet-version: [ '3.1.x', '6.0.x' ]
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
     
     - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
+      uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: ${{ env.DOTNET_VERSION }}
+        dotnet-version: ${{ matrix.dotnet-version }}
 
     - name: Go to src
       run: cd src
